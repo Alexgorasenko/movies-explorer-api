@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-// const config = require('../config');
+const config = require('../config');
 
 const BadRequestError = require('../utils/BadRequestError');
 
@@ -48,16 +48,19 @@ const createUser = (req, res, next) => {
 };
 
 const getUser = (req, res, next) => {
-  User.find({})
-    .then((users) => {
-      res.send(users);
+  User.findById(req.user._id)
+    .then((user) => {
+      res.send({
+        email: user.email,
+        name: user.name,
+      });
     })
     .catch(next);
 };
 
 const updateUser = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  const { email, name } = req.body;
+  User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .then((user) => {
       res.send(user);
     })
@@ -86,7 +89,7 @@ const login = (req, res, next) => {
           .compare(password, user.password)
           .then((isValidUser) => {
             if (isValidUser) {
-              const token = jwt.sign({ _id: user._id }, 'super_strong_password');
+              const token = jwt.sign({ _id: user._id }, config.JWT_SECRET);
               res.send({
                 token,
               });

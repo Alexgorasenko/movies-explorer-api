@@ -4,6 +4,11 @@ const config = require('../config');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
+
+  if (!authorization) {
+    return next(new UnauthorizedError('Необходима авторизация'));
+  }
+
   const token = authorization.replace('Bearer ', '');
 
   let payload;
