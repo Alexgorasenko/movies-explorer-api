@@ -33,7 +33,7 @@ const createUser = (req, res, next) => {
         if (err.name === 'ValidationError') {
           next(
             new BadRequestError(
-              'Переданы некорректные данные при создании пользователя',
+              'При регистрации пользователя произошла ошибка',
             ),
           );
         } else if (err.code === 11000) {
@@ -68,8 +68,12 @@ const updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(
           new BadRequestError(
-            'Переданы некорректные данные при обновлении профиля',
+            'При обновлении профиля произошла ошибка',
           ),
+        );
+      } else if (err.code === 11000) {
+        next(
+          new ConflictingError('Пользователь с таким email уже существует'),
         );
       } else {
         next(err);
@@ -83,7 +87,7 @@ const login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Неверный логин или пароль');
+        throw new UnauthorizedError('Вы ввели неправильный логин или пароль.');
       } else {
         return bcrypt
           .compare(password, user.password)
@@ -94,7 +98,7 @@ const login = (req, res, next) => {
                 token,
               });
             } else {
-              throw new UnauthorizedError('Неверный логин или пароль');
+              throw new UnauthorizedError('При авторизации произошла ошибка. Переданный токен некорректен.');
             }
           })
           .catch(next);

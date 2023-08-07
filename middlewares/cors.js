@@ -1,9 +1,9 @@
 const allowedCors = [
-  'https://api.alex-gorasenko.mesto.nomoredomains.xyz',
-  'https://alex-gorasenko.mesto.nomoredomains.xyz',
+  'https://api.alex-gorasenko.movies.nomoreparties.co',
+  'https://alex-gorasenko.movies.nomoreparties.co',
   'https://localhost:3000',
-  'http://api.alex-gorasenko.mesto.nomoredomains.xyz',
-  'http://alex-gorasenko.mesto.nomoredomains.xyz',
+  'http://api.alex-gorasenko.movies.nomoreparties.co',
+  'http://alex-gorasenko.movies.nomoreparties.co',
   'http://localhost:3000',
 ];
 
