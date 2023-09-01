@@ -1,8 +1,5 @@
 const {
-  NODE_ENV,
-  JWT_SECRET,
-  MONGODB_URL,
-  PORT,
+  NODE_ENV, JWT_SECRET, MONGODB_URL, PORT,
 } = process.env;
 
 const config = {
